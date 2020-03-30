@@ -1,0 +1,29 @@
+<link rel="import" href='/bower_components/polymer/polymer.html'>
+
+<dom-module id='poly-data'>
+  <template>
+    <p>
+      I am <em>{{firstName}}</em> <b>{{familyName}}</b>,
+    </p>
+    <center>
+      now the time is {{now}}.
+    </center>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'poly-data'
+    ,properties: {
+    }
+    ,ready: function(){
+      var self= this
+      self.familyName= 'LL';
+      self.firstName= 'CD';
+      self.now= (new Date()).toLocaleTimeString()
+      setInterval(function(){
+        self.now= (new Date()).toLocaleTimeString()
+      }, 100)
+    }
+  })
+</script>

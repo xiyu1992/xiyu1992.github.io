@@ -1,1 +1,84 @@
-Hello Worrld
+
+<!DOCTYPE html>
+<html class="mdl-layout__container_"
+  author='cdll'
+  cts='20140819'
+  detail='https://api.github.com/users/cdll/repos'
+>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="CDLL : Its about me~">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0" />
+    <!--    而#!其实是google的 _escaped_fragment_ 爬抓规则， 方便我们的AJAX应用也能被爬虫收录。当然，我们还需要在head标签内添加一个meta标签：-->
+    <meta name="fragment" content="!" />
+
+    <link rel="shortcut icon" href="./img/cdbg_1010.png" mce_href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="./src/css/index.css">
+
+    <title>C.D.Leon</title>
+
+    <script src="//cdn.bootcss.com/es6-shim/0.35.4/es6-shim.min.js"></script>
+  </head>
+
+  <body class=""
+    data-is='app'
+  >
+    <main class='' />
+
+    <script>
+      var dataMain= '/src/js/index.js'
+    </script>
+    <!-- <script src="//cdn.bootcss.com/systemjs/0.21.6/system.js"
+      onload="javascript:
+        var main= this.getAttribute('data-main')
+        System.import('/jspm.config.js')
+        .then(function(){
+          window.imports= System.import
+          System.import(main)
+        });
+    "></script> -->
+    <script src='https://cdn.bootcss.com/basket.js/0.5.2/basket.full.min.js'
+      onload='javascript:
+        var main= this.getAttribute("data-main")
+        var expire= 24
+        var bequire= basket.require
+        bequire({
+          url: "/jspm.config.js"
+          // ,expire: 0
+          ,skipCache: true
+        })
+        .then(function(res){
+          console.info({config}, config.paths)
+          //function: global thenable imports method
+          window.imports= function(url){
+            // console.info({url})
+            if(typeof url=== "object"){
+              return bequire(url)
+            }
+            else if(typeof url=== "string"){
+              console.info(233, config.paths[url])
+              if(config.paths[url])
+                url= config.paths[url]
+              return bequire({
+                url
+                ,expire
+                // ,skipCache: false
+              })
+            }
+            else console.warn(typeof url)
+          }
+          // event: main
+          return imports({
+            url: dataMain
+            ,skipCache: true
+          })
+        })
+        .catch(function(err){
+          basket.clear()
+        })
+      '
+    ></script>
+  </body>
+</html>

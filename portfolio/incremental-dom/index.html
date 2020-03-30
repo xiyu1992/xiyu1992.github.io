@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+
+  <body class="">
+    <section class="" id="main"></section>
+    <center id='todoList' class='list'>
+      <dl class="" id="dl"></dl>
+    </center>
+
+    <script src="src/js/incremental-dom.js"></script>
+<!--    https://github.com/google/incremental-dom/blob/master/demo/keys.html-->
+    <script>
+      //demo: inputs
+//      (function() {
+//        console.info(ID=IncrementalDOM)
+//        function before(obj, fnName, cb) {
+//          var old = obj[fnName];
+//          obj[fnName] = function() {
+//            cb();
+//            return old.apply(this, arguments);
+//          }
+//        }
+//  //      var patch = IncrementalDOM.patch, elementOpen = IncrementalDOM.elementOpen, elementVoid = IncrementalDOM.elementVoid, elementClose = IncrementalDOM.elementClose, text = IncrementalDOM.text;
+//        function update(data) {
+//          ID.patch(main, function() {
+//            ID.elementOpen('div');
+//            ID.elementVoid('input'
+//                           ,null, null
+//                           ,'type', 'text'
+//                           ,'onkeydown', handleInput
+//                           ,'autofocus', 'autofocus');
+//            ID.elementClose('div');
+//
+//            ID.elementOpen('div');
+//            ID.text('last 10 inputs');
+//            ID.elementClose('div');
+//
+//            ID.elementOpen('div');
+//            lastInputs.forEach(function(item) {
+//              ID.elementOpen('div'
+//                             , item.id, null
+//                             ,'style', 'min-height: 1em');
+//                ID.text(item.text);
+//              ID.elementClose('div');
+//            });
+//            ID.elementClose('div');
+//
+//            ID.elementOpen('div'
+//                           , null, null
+//                           ,'style', 'position: absolute; top: 0; right: 0;');
+//            ID.text('text nodes created: ' + data.textNodesCreated);
+//            ID.elementClose('div');
+//          });
+//        }
+//        var lastInputs = [];
+//        var count = 0;
+//        before(document, 'createTextNode', function() {
+//          count += 1;
+//        });
+//        function handleInput(e) {
+//          lastInputs = [{
+//              text: e.target.value,
+//              id: Date.now()
+//            }]
+//            .concat(lastInputs)
+//            .slice(0, 10);
+//          update({
+//            lastInputs: lastInputs,
+//            textNodesCreated: count
+//          });
+//        }
+//        // Initial render
+//        update({
+//          lastInputs: lastInputs,
+//          textNodesCreated: count
+//        });
+//      })();
+    //demo: keys
+//    setTimeout(function() {
+//      var patch = IncrementalDOM.patch,
+//          elementOpen = IncrementalDOM.elementOpen,
+//          elementVoid = IncrementalDOM.elementVoid,
+//          elementClose = IncrementalDOM.elementClose,
+//          text = IncrementalDOM.text;
+//      function update(data) {
+//        patch(main, function() {
+//          var moreThanFourCharacters = data.text.length > 4;
+//          elementOpen('div', null);
+//            elementVoid('input', null, null,
+//                'value', data.text, // value is the HTML (initial) value attribute
+//                'type', 'text',
+//                'oninput', handleInput,
+//                'style', {
+//                  'background-color': moreThanFourCharacters ? '' : 'rgba(255, 0, 0, 0.1)'
+//                });
+//          elementClose('div');
+//          elementOpen('div', null);
+//            text('Hello ');
+//            elementOpen('strong', null);
+//              text(data.text);
+//            elementClose('strong');
+//          elementClose('div');
+//          if (moreThanFourCharacters) {
+//            text('A string with more than 4 characters');
+//          }
+//        });
+//      function handleInput(e) {
+//        update({
+//          text: e.target.value,
+//        });
+//      }
+//      }
+//      // Calling update once to attach oninput
+//      update({ text: 'world' });
+//    }, 500);
+    </script>
+    <script>
+      (function(){
+        console.info(ID= IncrementalDOM)
+        function before(obj, fnName, cb) {
+          var old = obj[fnName];
+          obj[fnName] = function() {
+            cb();
+            return old.apply(this, arguments);
+          }
+        }
+        var inputList= []
+        ,cc= 0
+
+        function update(data){
+          ID.patch(main, function(){
+//            ID.elementOpen('div')
+            ID.elementVoid('div')
+            ID.elementVoid(
+              'input', null, null
+              ,'type', 'text'
+              ,'onkeypress', handleInput
+//              ,'autofocus', 1
+            )
+//            ID.elementClose('div')
+
+//            ID.elementOpen('div')
+            ID.elementVoid('div')
+            inputList.forEach(function(el){
+              ID.elementOpen(
+                'div', el.id, null
+                ,'style', {
+                  "min-height": "1.5em"
+                }
+              )
+              ID.text(el.text)
+              ID.elementClose('div')
+            })
+//            ID.elementClose('div')
+
+            ID.elementOpen(
+              'div', null, null
+              ,'style', 'position: absolute;top: 0;right: 0;'
+              ,'innerHTML', 'text node created: '+ data.nodeCount
+            )
+            ID.text('text node created: '+ data.nodeCount)
+            ID.elementClose('div')
+          })
+        }
+        before(document, 'createTextNode', function(){
+          cc+= 1
+        })
+
+        function handleInput(eve){
+          inputList= [
+            {
+              text: eve.target.value
+              ,id: Date.now()
+            }
+          ]
+          .concat(inputList)
+          .slice(0, 20)
+
+          update({
+            inputList: inputList
+            ,nodeCount: cc
+          })
+        }
+        update({
+          inputList: inputList
+          ,nodeCount: cc
+        })
+
+        //todoList
+        ID.patch(
+          document.querySelector('.list')//document.getElementById('todoList')
+          ,function(){
+            ID.elementVoid(
+              'input', null, null
+              ,'style', {
+                padding: '.5em 1em'
+              }
+              ,'autofocus', 1
+              ,'onkeypress', function(eve){
+                var key= eve.which|| eve.keyCode
+                if(key== 13){
+                  console.info(eve.target.value)
+//                  ID.elementOpen(document.getElementById('dl'))
+                    ID.elementOpen(
+                      'li', null, null
+                      ,'style', {
+                        border: 'red'
+                      }
+                    )
+                    ID.text(eve.target.value)
+                    ID.elementClose('li')
+//                  ID.elementClose(document.getElementById('dl'))
+                }
+              }
+            )
+          }
+        )
+      })();
+    </script>
+  </body>
+</html>

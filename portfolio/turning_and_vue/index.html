@@ -1,0 +1,82 @@
+<meta charset="utf-8"/>
+<meta name="view-port" content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>
+
+<title>turning-robot of vue</title>
+
+<link rel="stylesheet" href="/bower_components/material-design-lite/material.min.css" />
+<style>
+  *{margin: 0;padding: 0;max-width: 100%;}
+  [v-cloak]{display: none;}
+  .a{text-decoration: underline;cursor: pointer;}
+  .text-blue{color: #2cadf0;}
+  .search{margin: 1em auto;padding: .5em 1em;max-width: 95%;min-width: 90%;}
+  .text{padding: 10px;}
+  .link-frame{border: none;height: 50%;}
+  .news-ol{list-style-type: armenian;}
+  .news-ol>li{margin-top: .5em;}
+</style>
+
+<div class="fieldset robot" v-cloak>
+  <center class="">
+    <input class="search" type="search" v-model='input' v-on:keyup.enter= 'enterSearch' placeholder="请输入要查找的东东，回车键发起搜索" autofocus />
+  </center>
+  
+  <div class="" v-if='status== 100000'>
+    <center class="text" v-text='result.text'></center>
+  </div>
+  
+  <div class="link" v-if='status== 200000'>
+    <center class='' v-text='result.text'></center>
+    <iframe class="link-frame" v-bind:src="result.url"></iframe>
+  </div>
+  
+  <div class="" v-if='status== 302000'>
+    <center class="" v-text='result.text'></center>
+    <ol class="news-ol">
+      <li class="" v-for='item in result.list'>
+        <p class=''>
+          <span class="" v-text='"【"+source+"】"'></span>
+          <big class="" v-text='article'></big>
+        </p>
+        <img class="" v-bind:src='icon' width='1.25em' height="1.25em" />
+        <a class="a text-blue" v-href='detailurl' v-text='detailurl'></a>
+      </li>
+    </ol>
+  </div>
+  
+  <div class="" v-if='status== 305000'>
+    <center class='' v-text='result.text'></center>
+    <ol class="train-ol">
+      <li class="" v-for='item in result.list'>
+        <p class="">
+          <span class="" v-text='"["+trainnum+"]"'></span>
+          <span class="" v-text='start+"~"'></span>
+          <span class="" v-text='terminal'></span>
+        </p>
+        <p class="">
+          <img class="" v-bind:src='icon' />
+          <span class="" v-text='starttime+"~"'></span>
+          <span class="" v-text='endtime'></span>
+        </p>
+        <a class="a text-blue" v-href='detailurl' v-text='detailurl'></a>
+      </li>
+    </ol>
+  </div>
+  
+  <div class="" v-if='status== 308000'>
+    <center class='' v-text='result.text'></center>
+    <ol class="train-ol">
+      <li class="" v-for='item in result.list'>
+        <p class="">
+          <left class='' v-text='"【"+name+"】"'></left>
+          <span class="" v-html='info'></span>
+        </p>
+        <img class="" v-bind:src='icon' width="1.25em" height="1.25em" />
+        <a class="a text-blue" v-href='detailurl' v-text='detailurl'></a>
+      </li>
+    </ol>
+  </div>
+<!--  <footer class="">{{JSON.stringify(ipinfo)}}</footer>-->
+</div>
+
+<script src="//cdn.bootcss.com/require.js/2.3.6/require.min.js" data-main='src/js/index.js'></script>

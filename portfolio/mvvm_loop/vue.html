@@ -1,0 +1,74 @@
+<style>
+  *{transition: all .3s ease;}
+  dd dl
+  ,dl dl
+  ,dd input
+  ,dl input{margin-left: .75em;color: black;margin-bottom: 10px;}
+  dd dl:before
+  ,dl dl:before{content: '--';color: lightgray;}
+  input[contenteditable=true]{border-bottom: 1px solid blue;outline: none;padding: 0 5px 2px;background: none;}
+  input[contenteditable=true]:focus{border-bottom: 1px solid red;background: lightpink;}
+  iframe img{display: none;}
+</style>
+
+<body >
+  <div class="col-xs-6" v-on:keyup='logData($event)'>
+    <dd v-for="(vl,el) in data" v-bind:key="el" v-show="el!= '_id'" contenteditable="false" v-if=10>{{el}} :
+      <input v-if="!isObject(vl)" v-model="vl"/>
+      <dl v-for="(vk,ek) in vl" v-bind:key="ek" v-if="isObject(vl)">{{ek}} :
+        <input v-if="!isObject(vk)" v-model="vk"/>
+        <dl v-for="(vj,ej) in vk" v-bind:key="ej" v-if="isObject(vk)">{{ej}} :
+          <input v-if="!isObject(vj)" v-model="vj"/>
+          <dl v-for="(vh,eh) in vj" v-bind:key="eh" v-if="isObject(vj)">{{eh}} :
+            <input v-if="!isObject(vh)" v-model="vh"/>
+            <dl v-for="(vg,eg) in vh" v-bind:key="eg" v-if="isObject(vh)">{{eg}} :
+              <input v-if="!isObject(vg)" v-model="vg"/>
+              <dl v-for="(vf,ef) in vg" v-bind:key="ef" v-if="isObject(vg)">{{ef}} :
+                <input v-if="!isObject(vf)" v-model="vf"/>
+                <dl v-for="(vd,ed) in vf" v-bind:key="ed" v-if="isObject(vf)">{{ed}} :
+                  <input v-if="!isObject(vd)" v-model="vd"/>
+                  <dl v-for="(vs,es) in vd" v-bind:key="es" v-if="isObject(vd)">{{es}} :
+                    <input v-if="!isObject(vs)" v-model="vs"/>
+                    <dl v-for="(va,ea) in vs" v-bind:key="ea" v-if="isObject(vs)">{{ea}} :
+                      <input v-if="!isObject(va)" v-model="va"/>
+                    </dl>
+                  </dl>
+                </dl>
+              </dl>
+            </dl>
+          </dl>
+        </dl>
+      </dl>
+    </dd>
+<!--    <pre contenteditable="true">{{data}}</pre>-->
+  </div>
+</body>
+
+
+<script src="/bower_components/vue/dist/vue.min.js" ></script>
+<script src="/bower_components/qwest/qwest.min.js" ></script>
+<script >
+  (function(Vue, ajax){
+    vm= new Vue({
+      el: '.col-xs-6'
+      ,data: {
+        data: null
+      }
+      ,methods: {
+        isObject: function(o){
+          console.info(typeof(o), o)
+          var b= typeof(o)=== 'object'
+          return b
+        }
+        ,logData: function(){
+          console.log(vm.data)
+        }
+      }
+    })
+    ajax.get('data.json')
+    .then(function(xhr, res){
+      console.info(res)
+      vm.data= res
+    })
+  })(Vue, qwest)
+</script>

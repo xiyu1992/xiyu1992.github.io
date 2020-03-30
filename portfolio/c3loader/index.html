@@ -1,0 +1,59 @@
+<head>
+  <style>
+    .loader {
+      width: 100%;
+      height: 100%;
+      top: 100px;
+    }
+    .spin-loading{
+      display: inline-block;
+      width: 4em;
+      height: 4em;
+      background: none;
+      margin: 0 auto;
+      border-radius: 50%;
+      position: relative;
+      top: 50%;
+
+      animation: loading 3s linear infinite;
+    }
+    .spin-loading:before{
+      display: block; content: ''; border: 1em solid lightblue;border-radius: 50%;
+      position: absolute;top: 0;left: 0;
+      width: 0;height: 0;
+      animation: poping 1s ease-in-out infinite;
+    }
+    .spin-loading:after{
+      display: block; content: ''; border: 1em solid lightpink;border-radius: 50%;
+      position: absolute;bottom: 0;right: 0;
+      width: 0;height: 0;
+      animation: poping 1s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(720deg);
+      }
+    }
+    @keyframes poping {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.25);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <center class="loader">
+    <span class="spin-loading"></span>
+  </center>
+</body>

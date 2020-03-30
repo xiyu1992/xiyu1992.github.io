@@ -1,0 +1,62 @@
+
+<!doctype html author='cdll@20151202>
+<html>
+  <head>
+    <meta name='viewport' content="width=device-width,user-scalable=0,initial-scale=1.0,maximum-scale=1.0" />
+    <link rel="stylesheet" href="/bower_components/material-design-lite/material.min.css" >
+    <script id="polymer-core" src="/bower_components/webcomponentsjs/webcomponents-lite.min.js" -data-url='http://en.polymerchina.org/1.0/docs/start/quick-tour.html'></script>
+    <link rel="import" href="/bower_components/polymer/polymer.html">
+  </head>
+
+  <body>
+    <poly-el>
+      <link rel="import" href="parts/poly-el.html">
+    </poly-el>
+
+    <poly-dom>
+      <link rel="import" href="parts/poly-dom.html">
+    </poly-dom>
+
+    <pic-frame>
+      <link rel='import' href="parts/poly-frame.html">
+    </pic-frame>
+
+    <poly-data>
+      <link rel="import" href="parts/poly-data-duplex.html">
+    </poly-data>
+
+    <poly-attr data-nua='javascript:navigator.userAgent' -author='cdll'>
+      <link rel="import" href="parts/poly-attr-duplex.html">
+    </poly-attr>
+
+    <poly-editable>
+      <link rel="import" href="parts/poly-editable.html">
+    </poly-editable>
+
+    <poly-todo>
+      <link rel="import" href='parts/poly-todo-list.html'>
+    </poly-todo>
+
+    <ajax-list>
+      <link rel='import' href="/bower_components/iron-ajax/iron-ajax.html">
+      <template is="dom-bind">
+        <iron-ajax url="/bower.json"
+                   method='get'
+                   auto
+                   params='{"nonce": 321}'
+                   handle-as='json'
+                   onresponse='logger'
+                   last-response="{{res}}">
+        </iron-ajax>
+        <template is="dom-repeat" items="{{res.ignore}}" replace='false'>
+          <div class="horizontal-section">
+            <h2><a href="{{res.homepage}}" >{{item}}</a></h2>
+            <iron-image src="{{res}}" width="256" height="256" sizing="cover" preload fade></iron-image>
+            <p>{{item}}</p>
+          </div>
+        </template>
+      </template>
+    </ajax-list>
+
+  </body>
+</html>
