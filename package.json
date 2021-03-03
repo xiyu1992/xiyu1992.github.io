@@ -30,7 +30,7 @@
     "incremental-dom": "^0.3.0",
     "keycode": "^2.1.8",
     "postcss": "^5.2.16",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "rollup-plugin-css-only": "^0.2.0",
     "rollup-plugin-postcss": "^0.2.0",
     "rollup-plugin-vue2": "^0.8.0",
